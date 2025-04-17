@@ -1,11 +1,12 @@
 import { pgTable, uuid, text, timestamp, foreignKey, pgEnum } from "drizzle-orm/pg-core"
+import { sql } from "drizzle-orm"
 
 export const venueType = pgEnum("venue_type", ['breakfast', 'playzone', 'pub', 'club', 'restaurant'])
 
 
 export const admin = pgTable("admin", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
-	name: text(),
+	name: text().default('admin').notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 	email: text().notNull(),
 	password: text().notNull(),
