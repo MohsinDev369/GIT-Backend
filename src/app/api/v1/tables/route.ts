@@ -4,7 +4,17 @@ import { db } from '@/db';
 import { tables,admin, restaurants } from '@/supabase/migrations/schema';
 import { eq } from 'drizzle-orm';
 
-
+/**
+ * @swagger
+ * /api/v1/tables:
+ *   get:
+ *     summary: Get all tables
+ *     tags:
+ *       - Tables
+ *     responses:
+ *       200:
+ *         description: List of all tables
+ */
 export async function GET() {
     try {
         const allTables = await db.select().from(tables);
@@ -17,6 +27,35 @@ export async function GET() {
 
 /**
  * Creates a new table record in the database.
+ */
+/**
+ * @swagger
+ * /api/v1/tables:
+ *   post:
+ *     summary: Create a new table
+ *     tags:
+ *       - Tables
+ *     parameters:
+ *       - name: resid
+ *         in: query
+ *         required: true
+ *         description: Restaurant ID
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Table created successfully
  */
 export async function POST(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;

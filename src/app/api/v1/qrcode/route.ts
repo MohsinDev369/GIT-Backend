@@ -7,6 +7,44 @@ import { eq, sql } from 'drizzle-orm';
 /**
  * Returns the URL to be encoded in a QR code for a table
  */
+/**
+ * @swagger
+ * /api/v1/qrcode:
+ *   post:
+ *     summary: Get QR code information
+ *     description: Returns the URL and restaurant information for frontend QR code generation
+ *     tags:
+ *       - QR Code
+ *     parameters:
+ *       - name: tableid
+ *         in: query
+ *         required: true
+ *         description: Table ID
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       200:
+ *         description: QR code information
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 url:
+ *                   type: string
+ *                 restaurantLogo:
+ *                   type: string
+ *                 tableid:
+ *                   type: string
+ *                   format: uuid
+ *                 restaurantName:
+ *                   type: string
+ *       400:
+ *         description: Table ID not provided
+ *       500:
+ *         description: Error processing table information
+ */
 export async function POST(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const tableid = searchParams.get('tableid');
@@ -38,6 +76,30 @@ export async function POST(request: NextRequest) {
   }
 
 // The qrcode leads to this and processes the code
+/**
+ * @swagger
+ * /api/v1/qrcode:
+ *   get:
+ *     summary: Process QR code scan
+ *     description: Updates table expiry time and redirects to menu
+ *     tags:
+ *       - QR Code
+ *     parameters:
+ *       - name: tableid
+ *         in: query
+ *         required: true
+ *         description: Table ID
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       302:
+ *         description: Redirect to menu page
+ *       400:
+ *         description: Table ID not provided
+ *       200:
+ *         description: Error message (when something goes wrong)
+ */
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const tableid = searchParams.get('tableid');

@@ -5,6 +5,37 @@ import { restaurants, admin } from '@/supabase/migrations/schema';
 import { eq } from 'drizzle-orm';
 
 // Return all restaurants in the database
+/**
+ * @swagger
+ * /api/v1/restaurants:
+ *   get:
+ *     summary: Get all restaurants
+ *     description: Retrieves all restaurant records
+ *     tags:
+ *       - Restaurants
+ *     responses:
+ *       200:
+ *         description: List of all restaurants
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                     format: uuid
+ *                   name:
+ *                     type: string
+ *                   logoLink:
+ *                     type: string
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *       500:
+ *         description: Server error
+ */
 export async function GET() {
   try {
     const response = await db.select().from(restaurants);
@@ -16,6 +47,50 @@ export async function GET() {
 }
 
 // Create a new restaurant
+/**
+ * @swagger
+ * /api/v1/restaurants:
+ *   post:
+ *     summary: Create a restaurant
+ *     description: Creates a new restaurant record
+ *     tags:
+ *       - Restaurants
+ *     parameters:
+ *       - name: name
+ *         in: query
+ *         required: true
+ *         description: Restaurant name
+ *         schema:
+ *           type: string
+ *       - name: logolink
+ *         in: query
+ *         required: false
+ *         description: Restaurant logo URL
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Restaurant created successfully
+ *       400:
+ *         description: Missing required parameters
+ *       401:
+ *         description: Invalid email or password
+ */
 export async function POST(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const name = searchParams.get('name');
