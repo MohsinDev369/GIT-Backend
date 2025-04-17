@@ -12,11 +12,14 @@
     "db:getddl": "npx drizzle-kit introspect"
   },
   "dependencies": {
+    "canvas": "^3.1.0",
     "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.0",
     "drizzle-orm": "^0.42.0",
+    "jsdom": "^26.1.0",
     "next": "15.3.0",
     "postgres": "^3.4.5",
+    "qr-code-styling-node": "^1.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsx": "^4.19.3"
