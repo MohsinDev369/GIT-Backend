@@ -136,4 +136,5 @@ export const venues = pgTable("venues", {
 	acceptsCreditCards: boolean("accepts_credit_cards").default(false),
 	hasLiveMusic: boolean("has_live_music").default(false),
 	allowsLargeGroups: boolean("allows_large_groups").default(false),
+	imgUrl: text("img_url"),
 });
