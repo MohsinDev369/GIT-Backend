@@ -1,5 +1,24 @@
 import { relations } from "drizzle-orm/relations";
-import { restaurants, reservations, tables } from "./schema";
+import { users, reviews, venues, restaurants, reservations, tables } from "./schema";
+
+export const reviewsRelations = relations(reviews, ({one}) => ({
+	user: one(users, {
+		fields: [reviews.userId],
+		references: [users.userId]
+	}),
+	venue: one(venues, {
+		fields: [reviews.venueId],
+		references: [venues.id]
+	}),
+}));
+
+export const usersRelations = relations(users, ({many}) => ({
+	reviews: many(reviews),
+}));
+
+export const venuesRelations = relations(venues, ({many}) => ({
+	reviews: many(reviews),
+}));
 
 export const reservationsRelations = relations(reservations, ({one}) => ({
 	restaurant: one(restaurants, {
