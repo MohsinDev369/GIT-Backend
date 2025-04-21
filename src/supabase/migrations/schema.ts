@@ -1,5 +1,4 @@
 import { pgTable, uuid, text, timestamp, foreignKey, smallint, date, boolean, doublePrecision, numeric, integer, pgEnum } from "drizzle-orm/pg-core"
-import { sql } from "drizzle-orm"
 
 export const venueType = pgEnum("venue_type", ['breakfast', 'playzone', 'pub', 'club', 'restaurant'])
 
@@ -34,15 +33,15 @@ export const reservations = pgTable("reservations", {
 	fromRestaurants: uuid("from_restaurants"),
 }, (table) => [
 	foreignKey({
-			columns: [table.fromRestaurants],
-			foreignColumns: [restaurants.id],
-			name: "reservations_from_restaurants_fkey"
-		}),
+		columns: [table.fromRestaurants],
+		foreignColumns: [restaurants.id],
+		name: "reservations_from_restaurants_fkey"
+	}),
 	foreignKey({
-			columns: [table.tableId],
-			foreignColumns: [tables.id],
-			name: "reservations_table_id_fkey"
-		}),
+		columns: [table.tableId],
+		foreignColumns: [tables.id],
+		name: "reservations_table_id_fkey"
+	}),
 ]);
 
 export const tables = pgTable("tables", {
@@ -54,10 +53,10 @@ export const tables = pgTable("tables", {
 	fromRestaurant: uuid("from_restaurant").notNull(),
 }, (table) => [
 	foreignKey({
-			columns: [table.fromRestaurant],
-			foreignColumns: [restaurants.id],
-			name: "tables_from_restaurant_fkey"
-		}),
+		columns: [table.fromRestaurant],
+		foreignColumns: [restaurants.id],
+		name: "tables_from_restaurant_fkey"
+	}),
 ]);
 
 export const venueTypes = pgTable("venue_types", {
@@ -108,4 +107,10 @@ export const venues = pgTable("venues", {
 	price: numeric().notNull(),
 	favorite: boolean().default(false).notNull(),
 	status: boolean().default(false).notNull(),
+	hasWifi: boolean('has_wifi').default(false),
+	hasParking: boolean('has_parking').default(false),
+	hasOutdoorSeating: boolean('has_outdoor_seating').default(false),
+	acceptsCreditCards: boolean('accepts_credit_cards').default(false),
+	hasLiveMusic: boolean('has_live_music').default(false),
+	allowsLargeGroups: boolean('allows_large_groups').default(false)
 });
