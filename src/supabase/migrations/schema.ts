@@ -1,4 +1,5 @@
-import { pgTable, uuid, text, timestamp, foreignKey, smallint, date, boolean, doublePrecision, pgEnum } from "drizzle-orm/pg-core"
+import { pgTable, uuid, text, timestamp, foreignKey, smallint, date, boolean, doublePrecision, numeric, integer, pgEnum } from "drizzle-orm/pg-core"
+import { sql } from "drizzle-orm"
 
 export const venueType = pgEnum("venue_type", ['breakfast', 'playzone', 'pub', 'club', 'restaurant'])
 
@@ -102,4 +103,9 @@ export const venues = pgTable("venues", {
 	longitude: doublePrecision().notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 	description: text(),
+	overallRating: numeric("overall_rating"),
+	noOfRating: integer("no_of_rating"),
+	price: numeric().notNull(),
+	favorite: boolean().default(false).notNull(),
+	status: boolean().default(false).notNull(),
 });
