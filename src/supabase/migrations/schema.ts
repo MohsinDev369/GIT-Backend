@@ -187,3 +187,17 @@ export const events = pgTable("events", {
 	instagram_url: text(),
 	created_at: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
   });
+
+  export const tasteOfTheDay = pgTable("taste_of_the_day", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	venue_id: uuid().notNull().references(() => venues.id),
+	date: date("date"),
+	valid_from: timestamp("valid_from", { withTimezone: true, mode: 'string' }),
+	valid_to: timestamp("valid_to", { withTimezone: true, mode: 'string' }),
+	photo: text(),
+	info: text("info_taste_of_the_day"),
+	description: text(),
+	allergens: text(),
+	worth_knowing: text(),
+	created_at: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+  });
