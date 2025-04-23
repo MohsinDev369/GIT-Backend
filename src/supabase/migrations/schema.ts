@@ -1,5 +1,5 @@
 import { pgTable, foreignKey, uuid, numeric, text, timestamp, smallint, date, boolean, doublePrecision, integer, pgEnum } from "drizzle-orm/pg-core"
-import { sql } from "drizzle-orm"
+
 
 export const venueType = pgEnum("venue_type", ['breakfast', 'playzone', 'pub', 'club', 'restaurant'])
 
@@ -138,3 +138,26 @@ export const venues = pgTable("venues", {
 	allowsLargeGroups: boolean("allows_large_groups").default(false),
 	imgUrl: text("img_url"),
 });
+
+export const events = pgTable("events", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	venue_id: uuid().notNull().references(() => venues.id),
+	title: text().notNull(),
+	description: text(),
+	sub_title: text(),
+	start_time: timestamp("start_time", { withTimezone: true, mode: 'string' }).notNull(),
+	end_time: timestamp("end_time", { withTimezone: true, mode: 'string' }),
+	date: text(), // Formatted date for display
+	price: numeric("price", { precision: 10, scale: 2 }),
+	is_ticketed: boolean().default(false).notNull(),
+	photo_url: text(),
+	dj_info: text(),
+	location_details: text(),
+	dress_code: text(),
+	reservation_info: text(),
+	contact_info: text(),
+	ticket_purchase_url: text(),
+	calendar_event_url: text(),
+	free_tables: integer(),
+	created_at: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+  });
