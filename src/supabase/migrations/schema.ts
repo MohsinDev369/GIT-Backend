@@ -161,3 +161,29 @@ export const events = pgTable("events", {
 	free_tables: integer(),
 	created_at: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
   });
+
+  export const promotions = pgTable("promotions", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	venue_id: uuid().notNull().references(() => venues.id),
+	discount_code: text(),
+	valid_from: timestamp("valid_from", { withTimezone: true, mode: 'string' }),
+	valid_to: timestamp("valid_to", { withTimezone: true, mode: 'string' }),
+	target_audience: text(),
+	photo: text(), // URL or path to image
+	title: text().notNull(),
+	short_text: text(), // Renamed from short_text_of_promotion for consistency
+	created_at: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+  });
+
+  export const venueInfo = pgTable("venue_info", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	venue_id: uuid().notNull().references(() => venues.id),
+	short_info: text(),
+	email: text(),
+	phone_number: text(),
+	number_of_stars: integer(),
+	opening_hours: text(),
+	facebook_url: text(),
+	instagram_url: text(),
+	created_at: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+  });
