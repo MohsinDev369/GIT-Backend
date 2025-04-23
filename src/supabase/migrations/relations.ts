@@ -14,10 +14,15 @@ export const reviewsRelations = relations(reviews, ({one}) => ({
 
 export const usersRelations = relations(users, ({many}) => ({
 	reviews: many(reviews),
+	reservations: many(reservations),
 }));
 
 export const venuesRelations = relations(venues, ({many}) => ({
 	reviews: many(reviews),
+	events: many(events),
+	promotions: many(promotions),
+	venueInfos: many(venueInfo),
+	tasteOfTheDays: many(tasteOfTheDay),
 }));
 
 export const reservationsRelations = relations(reservations, ({one}) => ({
@@ -28,6 +33,10 @@ export const reservationsRelations = relations(reservations, ({one}) => ({
 	table: one(tables, {
 		fields: [reservations.tableId],
 		references: [tables.id]
+	}),
+	user: one(users, {
+		fields: [reservations.userId],
+		references: [users.userId]
 	}),
 }));
 
@@ -44,30 +53,30 @@ export const tablesRelations = relations(tables, ({one, many}) => ({
 	}),
 }));
 
-export const eventsRelations = relations(events, ({ one }) => ({
+export const eventsRelations = relations(events, ({one}) => ({
 	venue: one(venues, {
-	  fields: [events.venue_id],
-	  references: [venues.id],
+		fields: [events.venueId],
+		references: [venues.id]
 	}),
-  }));
+}));
 
-  export const promotionsRelations = relations(promotions, ({ one }) => ({
+export const promotionsRelations = relations(promotions, ({one}) => ({
 	venue: one(venues, {
-	  fields: [promotions.venue_id],
-	  references: [venues.id],
+		fields: [promotions.venueId],
+		references: [venues.id]
 	}),
-  }));
+}));
 
-  export const venueInfoRelations = relations(venueInfo, ({ one }) => ({
+export const venueInfoRelations = relations(venueInfo, ({one}) => ({
 	venue: one(venues, {
-	  fields: [venueInfo.venue_id],
-	  references: [venues.id],
+		fields: [venueInfo.venueId],
+		references: [venues.id]
 	}),
-  }));
+}));
 
-  export const tasteOfTheDayRelations = relations(tasteOfTheDay, ({ one }) => ({
+export const tasteOfTheDayRelations = relations(tasteOfTheDay, ({one}) => ({
 	venue: one(venues, {
-	  fields: [tasteOfTheDay.venue_id],
-	  references: [venues.id],
+		fields: [tasteOfTheDay.venueId],
+		references: [venues.id]
 	}),
-  }));
+}));
