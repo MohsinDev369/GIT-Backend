@@ -1,4 +1,4 @@
-import { pgTable, foreignKey, uuid, numeric, text, timestamp, boolean, integer, date, smallint, doublePrecision, pgEnum } from "drizzle-orm/pg-core"
+import { pgTable, foreignKey, uuid, numeric, text, timestamp, boolean, integer, date, bigint, smallint, doublePrecision, time, pgEnum } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const tableStatus = pgEnum("table_status", ['available', 'occupied', 'reserved', 'unavailable'])
@@ -184,6 +184,36 @@ export const tasteOfTheDay = pgTable("taste_of_the_day", {
 		}),
 ]);
 
+export const views = pgTable("views", {
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "views_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 9223372036854775807, cache: 1 }),
+	userId: uuid("user_id"),
+	venueId: uuid("venue_id"),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+	tableId: uuid("table_id"),
+	reservationTime: timestamp("reservation_time", { withTimezone: true, mode: 'string' }),
+	status: text(),
+	"3DScan": text("3d_scan"),
+	"2DScan": text("2d_scan"),
+	payment: text(),
+}, (table) => [
+	foreignKey({
+			columns: [table.tableId],
+			foreignColumns: [tables.id],
+			name: "views_table_id_fkey"
+		}),
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.userId],
+			name: "views_user_id_fkey"
+		}),
+	foreignKey({
+			columns: [table.venueId],
+			foreignColumns: [venues.id],
+			name: "views_venue_id_fkey"
+		}),
+]);
+
 export const users = pgTable("users", {
 	userId: uuid("user_id").defaultRandom().primaryKey().notNull(),
 	firstName: text("first_name").notNull(),
@@ -232,4 +262,7 @@ export const venues = pgTable("venues", {
 	hasLiveMusic: boolean("has_live_music").default(false),
 	allowsLargeGroups: boolean("allows_large_groups").default(false),
 	imgUrl: text("img_url"),
+	allergens: time(),
+	"3DUrl": text("3d_url"),
+	tags: text(),
 });
