@@ -27,33 +27,6 @@ export const reviews = pgTable("reviews", {
 		}),
 ]);
 
-export const reservations = pgTable("reservations", {
-	id: uuid().defaultRandom().primaryKey().notNull(),
-	tableId: uuid("table_id").notNull(),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	startDate: timestamp("start_date", { withTimezone: true, mode: 'string' }).notNull(),
-	endDate: timestamp("end_date", { withTimezone: true, mode: 'string' }).notNull(),
-	status: text(),
-	fromRestaurants: uuid("from_restaurants"),
-	userId: uuid("user_id"),
-}, (table) => [
-	foreignKey({
-			columns: [table.fromRestaurants],
-			foreignColumns: [restaurants.id],
-			name: "reservations_from_restaurants_fkey"
-		}),
-	foreignKey({
-			columns: [table.tableId],
-			foreignColumns: [tables.id],
-			name: "reservations_table_id_fkey"
-		}),
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.userId],
-			name: "reservations_user_id_fkey"
-		}),
-]);
-
 export const events = pgTable("events", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	venueId: uuid("venue_id").notNull(),
@@ -80,6 +53,39 @@ export const events = pgTable("events", {
 			columns: [table.venueId],
 			foreignColumns: [venues.id],
 			name: "events_venue_id_venues_id_fk"
+		}),
+]);
+
+export const reservations = pgTable("reservations", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	tableId: uuid("table_id").notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+	startDate: timestamp("start_date", { withTimezone: true, mode: 'string' }).notNull(),
+	endDate: timestamp("end_date", { withTimezone: true, mode: 'string' }).notNull(),
+	status: text(),
+	fromRestaurants: uuid("from_restaurants"),
+	userId: uuid("user_id"),
+	venueId: uuid("venue_id"),
+}, (table) => [
+	foreignKey({
+			columns: [table.fromRestaurants],
+			foreignColumns: [restaurants.id],
+			name: "reservations_from_restaurants_fkey"
+		}),
+	foreignKey({
+			columns: [table.tableId],
+			foreignColumns: [tables.id],
+			name: "reservations_table_id_fkey"
+		}),
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.userId],
+			name: "reservations_user_id_fkey"
+		}),
+	foreignKey({
+			columns: [table.venueId],
+			foreignColumns: [venues.id],
+			name: "reservations_venue_id_fkey"
 		}),
 ]);
 
