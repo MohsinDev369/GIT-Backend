@@ -1,5 +1,4 @@
-import { pgTable, foreignKey, uuid, numeric, text, timestamp, boolean, integer, date, bigint, smallint, doublePrecision, time, pgEnum } from "drizzle-orm/pg-core"
-import { sql } from "drizzle-orm"
+import { pgTable, foreignKey, uuid, numeric, text, timestamp, boolean, integer, date, smallint, doublePrecision, time, pgEnum } from "drizzle-orm/pg-core"
 
 export const tableStatus = pgEnum("table_status", ['available', 'occupied', 'reserved', 'unavailable'])
 export const venueType = pgEnum("venue_type", ['breakfast', 'playzone', 'pub', 'club', 'restaurant'])
@@ -192,7 +191,7 @@ export const tasteOfTheDay = pgTable("taste_of_the_day", {
 
 export const views = pgTable("views", {
 	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "views_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 9223372036854775807, cache: 1 }),
+	id: uuid().defaultRandom().primaryKey().notNull(),
 	userId: uuid("user_id"),
 	venueId: uuid("venue_id"),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
