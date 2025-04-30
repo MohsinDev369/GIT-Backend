@@ -1,4 +1,5 @@
 import { pgTable, foreignKey, uuid, numeric, text, timestamp, boolean, integer, date, smallint, doublePrecision, time, pgEnum } from "drizzle-orm/pg-core"
+import { sql } from "drizzle-orm"
 
 export const tableStatus = pgEnum("table_status", ['available', 'occupied', 'reserved', 'unavailable'])
 export const venueType = pgEnum("venue_type", ['breakfast', 'playzone', 'pub', 'club', 'restaurant'])
@@ -25,6 +26,43 @@ export const reviews = pgTable("reviews", {
 			name: "reviews_venue_id_fkey"
 		}),
 ]);
+
+export const views = pgTable("views", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	userId: uuid("user_id"),
+	venueId: uuid("venue_id"),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+	tableId: uuid("table_id"),
+	reservationTime: timestamp("reservation_time", { withTimezone: true, mode: 'string' }),
+	status: text(),
+	"3DScan": text("3d_scan"),
+	"2DScan": text("2d_scan"),
+	payment: text(),
+}, (table) => [
+	foreignKey({
+			columns: [table.tableId],
+			foreignColumns: [tables.id],
+			name: "views_table_id_fkey"
+		}),
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.userId],
+			name: "views_user_id_fkey"
+		}),
+	foreignKey({
+			columns: [table.venueId],
+			foreignColumns: [venues.id],
+			name: "views_venue_id_fkey"
+		}),
+]);
+
+export const admin = pgTable("admin", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	name: text().default('admin').notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+	email: text().notNull(),
+	password: text().notNull(),
+});
 
 export const events = pgTable("events", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
@@ -104,14 +142,6 @@ export const tables = pgTable("tables", {
 		}),
 ]);
 
-export const admin = pgTable("admin", {
-	id: uuid().defaultRandom().primaryKey().notNull(),
-	name: text().default('admin').notNull(),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	email: text().notNull(),
-	password: text().notNull(),
-});
-
 export const currentTimestamp = pgTable("current_timestamp", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
@@ -189,36 +219,6 @@ export const tasteOfTheDay = pgTable("taste_of_the_day", {
 		}),
 ]);
 
-export const views = pgTable("views", {
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	id: uuid().defaultRandom().primaryKey().notNull(),
-	userId: uuid("user_id"),
-	venueId: uuid("venue_id"),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	tableId: uuid("table_id"),
-	reservationTime: timestamp("reservation_time", { withTimezone: true, mode: 'string' }),
-	status: text(),
-	"3DScan": text("3d_scan"),
-	"2DScan": text("2d_scan"),
-	payment: text(),
-}, (table) => [
-	foreignKey({
-			columns: [table.tableId],
-			foreignColumns: [tables.id],
-			name: "views_table_id_fkey"
-		}),
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.userId],
-			name: "views_user_id_fkey"
-		}),
-	foreignKey({
-			columns: [table.venueId],
-			foreignColumns: [venues.id],
-			name: "views_venue_id_fkey"
-		}),
-]);
-
 export const users = pgTable("users", {
 	userId: uuid("user_id").defaultRandom().primaryKey().notNull(),
 	firstName: text("first_name").notNull(),
@@ -257,9 +257,9 @@ export const venues = pgTable("venues", {
 	description: text(),
 	overallRating: numeric("overall_rating"),
 	noOfRating: integer("no_of_rating"),
-	price: numeric().notNull(),
-	favorite: boolean().default(false).notNull(),
-	status: boolean().default(false).notNull(),
+	price: numeric(),
+	favorite: boolean().default(false),
+	status: boolean().default(false),
 	hasWifi: boolean("has_wifi").default(false),
 	hasParking: boolean("has_parking").default(false),
 	hasOutdoorSeating: boolean("has_outdoor_seating").default(false),

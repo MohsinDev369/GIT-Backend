@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { users, reviews, venues, events, restaurants, reservations, tables, promotions, venueInfo, tasteOfTheDay, views } from "./schema";
+import { users, reviews, venues, tables, views, events, restaurants, reservations, promotions, venueInfo, tasteOfTheDay } from "./schema";
 
 export const reviewsRelations = relations(reviews, ({one}) => ({
 	user: one(users, {
@@ -14,18 +14,42 @@ export const reviewsRelations = relations(reviews, ({one}) => ({
 
 export const usersRelations = relations(users, ({many}) => ({
 	reviews: many(reviews),
-	reservations: many(reservations),
 	views: many(views),
+	reservations: many(reservations),
 }));
 
 export const venuesRelations = relations(venues, ({many}) => ({
 	reviews: many(reviews),
+	views: many(views),
 	events: many(events),
 	reservations: many(reservations),
 	promotions: many(promotions),
 	venueInfos: many(venueInfo),
 	tasteOfTheDays: many(tasteOfTheDay),
+}));
+
+export const viewsRelations = relations(views, ({one}) => ({
+	table: one(tables, {
+		fields: [views.tableId],
+		references: [tables.id]
+	}),
+	user: one(users, {
+		fields: [views.userId],
+		references: [users.userId]
+	}),
+	venue: one(venues, {
+		fields: [views.venueId],
+		references: [venues.id]
+	}),
+}));
+
+export const tablesRelations = relations(tables, ({one, many}) => ({
 	views: many(views),
+	reservations: many(reservations),
+	restaurant: one(restaurants, {
+		fields: [tables.fromRestaurant],
+		references: [restaurants.id]
+	}),
 }));
 
 export const eventsRelations = relations(events, ({one}) => ({
@@ -59,15 +83,6 @@ export const restaurantsRelations = relations(restaurants, ({many}) => ({
 	tables: many(tables),
 }));
 
-export const tablesRelations = relations(tables, ({one, many}) => ({
-	reservations: many(reservations),
-	restaurant: one(restaurants, {
-		fields: [tables.fromRestaurant],
-		references: [restaurants.id]
-	}),
-	views: many(views),
-}));
-
 export const promotionsRelations = relations(promotions, ({one}) => ({
 	venue: one(venues, {
 		fields: [promotions.venueId],
@@ -85,21 +100,6 @@ export const venueInfoRelations = relations(venueInfo, ({one}) => ({
 export const tasteOfTheDayRelations = relations(tasteOfTheDay, ({one}) => ({
 	venue: one(venues, {
 		fields: [tasteOfTheDay.venueId],
-		references: [venues.id]
-	}),
-}));
-
-export const viewsRelations = relations(views, ({one}) => ({
-	table: one(tables, {
-		fields: [views.tableId],
-		references: [tables.id]
-	}),
-	user: one(users, {
-		fields: [views.userId],
-		references: [users.userId]
-	}),
-	venue: one(venues, {
-		fields: [views.venueId],
 		references: [venues.id]
 	}),
 }));
