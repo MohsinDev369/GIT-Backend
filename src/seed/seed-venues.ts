@@ -5,7 +5,7 @@ import { seed } from "drizzle-seed";
 const mockVenueLocations = [
   {
     name: "Morning Glory",
-    type: 'Breakfast',
+    type: 'breakfast',
     latitude: 37.7851,
     longitude: -122.4094,
     description: "Start your day with our legendary breakfast spreads. Fresh pastries, locally sourced eggs, and the best coffee in town make us the perfect morning destination."
@@ -13,7 +13,7 @@ const mockVenueLocations = [
   {
 
     name: "Sunny Side Up",
-    type: 'Breakfast',
+    type: 'breakfast',
     latitude: 37.7854,
     longitude: -122.4074,
     description: "A cozy breakfast spot serving homestyle favorites with a modern twist. Known for our fluffy pancakes and creative Benedict variations."
@@ -21,15 +21,15 @@ const mockVenueLocations = [
   {
 
     name: "Early Bird Cafe",
-    type: 'Breakfast',
+    type: 'breakfast',
     latitude: 37.7858,
     longitude: -122.4098,
     description: "Farm-to-table breakfast in a charming setting. Organic ingredients, fresh-baked goods, and seasonal specials that change weekly."
   },
   {
-   
+
     name: "Starbucks Downtown",
-    type: 'Cafes',
+    type: 'playzone',
     latitude: 37.7849,
     longitude: -122.4089,
     description: "Your favorite coffee spot in the heart of downtown. Featuring signature drinks, fresh pastries, and a welcoming atmosphere perfect for work or casual meetings."
@@ -37,7 +37,7 @@ const mockVenueLocations = [
   {
 
     name: "Local Coffee House",
-    type: 'Cafes',
+    type: 'playzone',
     latitude: 37.7857,
     longitude: -122.4093,
     description: "Artisanal coffee roasted in-house, paired with locally baked treats. A community hub known for its unique blends and friendly baristas."
@@ -45,7 +45,7 @@ const mockVenueLocations = [
   {
 
     name: "The Italian Place",
-    type: 'Restaurants',
+    type: 'restaurant',
     latitude: 37.7861,
     longitude: -122.4087,
     description: "Authentic Italian cuisine in an elegant setting. Hand-made pasta, wood-fired pizzas, and an extensive wine list transport you straight to Italy."
@@ -53,7 +53,7 @@ const mockVenueLocations = [
   {
 
     name: "Burger Joint",
-    type: 'Restaurants',
+    type: 'restaurant',
     latitude: 37.7863,
     longitude: -122.4082,
     description: "Gourmet burgers made with premium ingredients. Our secret sauce and unique toppings have made us a local favorite for over a decade."
@@ -61,7 +61,7 @@ const mockVenueLocations = [
   {
 
     name: "Sushi Bar",
-    type: 'Restaurants',
+    type: 'restaurant',
     latitude: 37.7848,
     longitude: -122.4079,
     description: "Fresh, innovative sushi creations in a modern atmosphere. Expert chefs craft both traditional favorites and unique fusion rolls."
@@ -69,22 +69,22 @@ const mockVenueLocations = [
   {
 
     name: "Mexican Grill",
-    type: 'Restaurants',
+    type: 'restaurant',
     latitude: 37.7853,
     longitude: -122.4085,
     description: "Vibrant Mexican flavors in every dish. House-made salsas, fresh guacamole, and authentic recipes passed down through generations."
   },
   {
-   
+
     name: "Steakhouse",
-    type: 'Restaurants',
+    type: 'restaurant',
     latitude: 37.7856,
     longitude: -122.4091,
     description: "Premium cuts of meat aged to perfection. Our expert chefs prepare each steak to your exact specifications in our open kitchen."
   },
   {
     name: "Irish Pub",
-    type: 'Pubs',
+    type: 'pub',
     latitude: 37.7852,
     longitude: -122.4083,
     description: "Traditional Irish pub atmosphere with classic drinks and comfort food. Live music on weekends and the best Guinness pour in town."
@@ -92,7 +92,7 @@ const mockVenueLocations = [
   {
 
     name: "Sports Bar",
-    type: 'Pubs',
+    type: 'pub',
     latitude: 37.7859,
     longitude: -122.4088,
     description: "Your ultimate sports viewing destination with 20+ screens, great beer selection, and classic bar food. Perfect for game day!"
@@ -100,7 +100,7 @@ const mockVenueLocations = [
   {
 
     name: "Club Nova",
-    type: 'Clubs',
+    type: 'pub',
     latitude: 37.7847,
     longitude: -122.4092,
     description: "The city's hottest nightclub featuring world-class DJs, state-of-the-art sound system, and three unique dance floors. Unforgettable nights guaranteed."
@@ -108,56 +108,59 @@ const mockVenueLocations = [
   {
 
     name: "The Underground",
-    type: 'Clubs',
+    type: 'pub',
     latitude: 37.7855,
     longitude: -122.4086,
     description: "Alternative music venue and club with an edgy vibe. Known for indie bands, electronic music nights, and creative cocktails."
   },
   {
-    
+
     name: "Sky Lounge",
-    type: 'Clubs',
+    type: 'pub',
     latitude: 37.7860,
     longitude: -122.4081,
     description: "Exclusive rooftop club offering panoramic city views. Premium bottle service, VIP areas, and sophisticated atmosphere for the ultimate night out."
   }
- ];
+];
 
- await seed(db, venues).refine((funcs) => ({
-  venues: {
-    count: mockVenueLocations.length + 10, // 10 extra random venues
-    columns: {
-      name: funcs.valuesFromArray({
-        values: [
-          ...mockVenueLocations.map((v) => v.name),
-          // Optionally add additional names or use a generator for extras
-        ],
-      }),
-      type: funcs.valuesFromArray({
-        values: [
-          ...mockVenueLocations.map((v) => v.type),
-        ],
-      }),
-      latitude: funcs.valuesFromArray({
-        values: [
-          ...mockVenueLocations.map((v) => v.latitude),
-        ],
-      }),
-      longitude: funcs.valuesFromArray({
-        values: [
-          ...mockVenueLocations.map((v) => v.longitude),
-        ],
-      }),
-      description: funcs.valuesFromArray({
-        values: [
-          ...mockVenueLocations.map((v) => v.description),
-        ],
-      }),
-      // For additional rows, the generator will cycle or you can mix in random generators for extras
+async function main() {
+  await seed(db, {venues}).refine((funcs) => ({
+    venues: {
+      count: mockVenueLocations.length + 10, // 10 extra random venues
+      columns: {
+        name: funcs.valuesFromArray({
+          values: [
+            ...mockVenueLocations.map((v) => v.name),
+            // Optionally add additional names or use a generator for extras
+          ],
+        }),
+        type: funcs.valuesFromArray({
+          values: [
+            ...mockVenueLocations.map((v) => v.type),
+          ],
+        }),
+        latitude: funcs.valuesFromArray({
+          values: [
+            ...mockVenueLocations.map((v) => v.latitude),
+          ],
+        }),
+        longitude: funcs.valuesFromArray({
+          values: [
+            ...mockVenueLocations.map((v) => v.longitude),
+          ],
+        }),
+        description: funcs.valuesFromArray({
+          values: [
+            ...mockVenueLocations.map((v) => v.description),
+          ],
+        }),
+        // For additional rows, the generator will cycle or you can mix in random generators for extras
+      },
     },
-  },
-}));
+  }));
+}
+
 // async function main() {
 //   await seed(db, { venues });
 // }
-// main();
+main();
