@@ -2,20 +2,24 @@
   "name": "geatit-next-backend",
   "version": "0.0.6",
   "private": true,
+  "type": "module",
   "scripts": {
-    "start": "npm run db:push && next start",
-    "dev": "npm run db:push && next dev --turbopack",
-    "build": "npm run db:push && next build",
+    "start": "db:push && next start",
+    "dev": "db:push && next dev --turbopack",
+    "build": "db:push && next build",
     "lint": "next lint",
     "db:generate": "npx drizzle-kit generate",
     "db:push": "npx drizzle-kit push",
-    "db:getddl": "npx drizzle-kit introspect"
+    "db:getddl": "npx drizzle-kit introspect",
+    "venue-seed": "./src/seed/seed-venues.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.7.0",
     "canvas": "^3.1.0",
     "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.0",
     "drizzle-orm": "^0.42.0",
+    "drizzle-seed": "^0.3.1",
     "jsdom": "^26.1.0",
     "next": "15.3.0",
     "next-swagger-doc": "^0.4.1",
