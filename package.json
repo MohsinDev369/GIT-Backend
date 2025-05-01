@@ -4,14 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "db:push && next start",
-    "dev": "db:push && next dev --turbopack",
-    "build": "db:push && next build",
+    "start": "npm run db:push && next start",
+    "dev": "npm run db:push && next dev --turbopack",
+    "build": "npm run db:push && next build",
     "lint": "next lint",
     "db:generate": "npx drizzle-kit generate",
     "db:push": "npx drizzle-kit push",
     "db:getddl": "npx drizzle-kit introspect",
-    "prevenue": "node -e \"process.stdin.setRawMode(true); process.stdout.write('Are you sure you want to run this seed script? This may overwrite existing data. [y/N] '); process.stdin.on('data', data => { const key = data.toString(); if (key.toLowerCase() === 'y') { process.exit(0); } else { console.log('\\nOperation canceled.'); process.exit(1); } });\"",
     "venue-seed": "bun run ./src/scripts/confirm-and-run.ts bun run ./src/seed/seed-venues.ts"
   },
   "dependencies": {
