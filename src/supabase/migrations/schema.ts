@@ -1,8 +1,8 @@
-import { pgTable, foreignKey, uuid, numeric, text, timestamp, boolean, integer, date, smallint, doublePrecision, time, pgEnum } from "drizzle-orm/pg-core"
+import { pgTable, foreignKey, uuid, numeric, text, timestamp, doublePrecision, integer, boolean, time, date, smallint, pgEnum } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const tableStatus = pgEnum("table_status", ['available', 'occupied', 'reserved', 'unavailable'])
-export const venueType = pgEnum("venue_type", ['breakfast', 'playzone', 'pub', 'club', 'restaurant'])
+export const venueType = pgEnum("venue_type", ['breakfast', 'playzones', 'pubs', 'clubs', 'restaurants'])
 
 
 export const reviews = pgTable("reviews", {
@@ -55,6 +55,31 @@ export const views = pgTable("views", {
 			name: "views_venue_id_fkey"
 		}),
 ]);
+
+export const venues = pgTable("venues", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	name: text().notNull(),
+	type: venueType().notNull(),
+	latitude: doublePrecision().notNull(),
+	longitude: doublePrecision().notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+	description: text(),
+	overallRating: numeric("overall_rating"),
+	noOfRating: integer("no_of_rating"),
+	price: numeric(),
+	favorite: boolean().default(false),
+	status: boolean().default(false),
+	hasWifi: boolean("has_wifi").default(false),
+	hasParking: boolean("has_parking").default(false),
+	hasOutdoorSeating: boolean("has_outdoor_seating").default(false),
+	acceptsCreditCards: boolean("accepts_credit_cards").default(false),
+	hasLiveMusic: boolean("has_live_music").default(false),
+	allowsLargeGroups: boolean("allows_large_groups").default(false),
+	imgUrl: text("img_url"),
+	allergens: time(),
+	"3DUrl": text("3d_url"),
+	tags: text(),
+});
 
 export const admin = pgTable("admin", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
@@ -245,29 +270,4 @@ export const users = pgTable("users", {
 	isVerified: boolean("is_verified"),
 	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }),
 	language: text(),
-});
-
-export const venues = pgTable("venues", {
-	id: uuid().defaultRandom().primaryKey().notNull(),
-	name: text().notNull(),
-	type: venueType().notNull(),
-	latitude: doublePrecision().notNull(),
-	longitude: doublePrecision().notNull(),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	description: text(),
-	overallRating: numeric("overall_rating"),
-	noOfRating: integer("no_of_rating"),
-	price: numeric(),
-	favorite: boolean().default(false),
-	status: boolean().default(false),
-	hasWifi: boolean("has_wifi").default(false),
-	hasParking: boolean("has_parking").default(false),
-	hasOutdoorSeating: boolean("has_outdoor_seating").default(false),
-	acceptsCreditCards: boolean("accepts_credit_cards").default(false),
-	hasLiveMusic: boolean("has_live_music").default(false),
-	allowsLargeGroups: boolean("allows_large_groups").default(false),
-	imgUrl: text("img_url"),
-	allergens: time(),
-	"3DUrl": text("3d_url"),
-	tags: text(),
 });
