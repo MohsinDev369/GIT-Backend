@@ -29,7 +29,7 @@ const mockVenueLocations = [
   {
 
     name: "Starbucks Downtown",
-    type: 'playzone',
+    type: 'playzones',
     latitude: 37.7849,
     longitude: -122.4089,
     description: "Your favorite coffee spot in the heart of downtown. Featuring signature drinks, fresh pastries, and a welcoming atmosphere perfect for work or casual meetings."
@@ -37,7 +37,7 @@ const mockVenueLocations = [
   {
 
     name: "Local Coffee House",
-    type: 'playzone',
+    type: 'playzones',
     latitude: 37.7857,
     longitude: -122.4093,
     description: "Artisanal coffee roasted in-house, paired with locally baked treats. A community hub known for its unique blends and friendly baristas."
@@ -45,7 +45,7 @@ const mockVenueLocations = [
   {
 
     name: "The Italian Place",
-    type: 'restaurant',
+    type: 'restaurants',
     latitude: 37.7861,
     longitude: -122.4087,
     description: "Authentic Italian cuisine in an elegant setting. Hand-made pasta, wood-fired pizzas, and an extensive wine list transport you straight to Italy."
@@ -53,7 +53,7 @@ const mockVenueLocations = [
   {
 
     name: "Burger Joint",
-    type: 'restaurant',
+    type: 'restaurants',
     latitude: 37.7863,
     longitude: -122.4082,
     description: "Gourmet burgers made with premium ingredients. Our secret sauce and unique toppings have made us a local favorite for over a decade."
@@ -61,7 +61,7 @@ const mockVenueLocations = [
   {
 
     name: "Sushi Bar",
-    type: 'restaurant',
+    type: 'restaurants',
     latitude: 37.7848,
     longitude: -122.4079,
     description: "Fresh, innovative sushi creations in a modern atmosphere. Expert chefs craft both traditional favorites and unique fusion rolls."
@@ -69,7 +69,7 @@ const mockVenueLocations = [
   {
 
     name: "Mexican Grill",
-    type: 'restaurant',
+    type: 'restaurants',
     latitude: 37.7853,
     longitude: -122.4085,
     description: "Vibrant Mexican flavors in every dish. House-made salsas, fresh guacamole, and authentic recipes passed down through generations."
@@ -77,14 +77,14 @@ const mockVenueLocations = [
   {
 
     name: "Steakhouse",
-    type: 'restaurant',
+    type: 'restaurants',
     latitude: 37.7856,
     longitude: -122.4091,
     description: "Premium cuts of meat aged to perfection. Our expert chefs prepare each steak to your exact specifications in our open kitchen."
   },
   {
     name: "Irish Pub",
-    type: 'pub',
+    type: 'pubs',
     latitude: 37.7852,
     longitude: -122.4083,
     description: "Traditional Irish pub atmosphere with classic drinks and comfort food. Live music on weekends and the best Guinness pour in town."
@@ -92,7 +92,7 @@ const mockVenueLocations = [
   {
 
     name: "Sports Bar",
-    type: 'pub',
+    type: 'pubs',
     latitude: 37.7859,
     longitude: -122.4088,
     description: "Your ultimate sports viewing destination with 20+ screens, great beer selection, and classic bar food. Perfect for game day!"
@@ -100,7 +100,7 @@ const mockVenueLocations = [
   {
 
     name: "Club Nova",
-    type: 'pub',
+    type: 'pubs',
     latitude: 37.7847,
     longitude: -122.4092,
     description: "The city's hottest nightclub featuring world-class DJs, state-of-the-art sound system, and three unique dance floors. Unforgettable nights guaranteed."
@@ -108,7 +108,7 @@ const mockVenueLocations = [
   {
 
     name: "The Underground",
-    type: 'pub',
+    type: 'pubs',
     latitude: 37.7855,
     longitude: -122.4086,
     description: "Alternative music venue and club with an edgy vibe. Known for indie bands, electronic music nights, and creative cocktails."
@@ -116,7 +116,7 @@ const mockVenueLocations = [
   {
 
     name: "Sky Lounge",
-    type: 'pub',
+    type: 'pubs',
     latitude: 37.7860,
     longitude: -122.4081,
     description: "Exclusive rooftop club offering panoramic city views. Premium bottle service, VIP areas, and sophisticated atmosphere for the ultimate night out."
