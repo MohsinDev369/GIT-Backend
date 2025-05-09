@@ -36,8 +36,8 @@ import { venues } from '@/supabase/migrations/schema';
  */
 export async function GET() {
     try {   
-        const allMarkers = await db.select({id:venues.id,name:venues.name,type:venues.type,latitude:venues.latitude,longitude:venues.longitude,description:venues.description}).from(venues);
-        return NextResponse.json(allMarkers);
+        const allVenues = await db.select().from(venues);
+        return NextResponse.json(allVenues);
     } catch (error) {
         console.error('Error fetching tables:', error);
         return Response.json('Internal server error');
