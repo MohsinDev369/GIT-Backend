@@ -1,6 +1,7 @@
-import { pgTable, foreignKey, uuid, numeric, text, timestamp, doublePrecision, integer, boolean, time, date, smallint, pgEnum } from "drizzle-orm/pg-core"
+import { pgTable, foreignKey, uuid, numeric, text, timestamp, check, doublePrecision, boolean, time, real, integer, date, smallint, pgEnum } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
+export const cuisineType = pgEnum("cuisine_type", ['romantic', 'italian', 'Pizza', 'Fun', 'Casual', 'Groups', 'Tapas', 'Kid-friendly', 'Fine dining'])
 export const tableStatus = pgEnum("table_status", ['available', 'occupied', 'reserved', 'unavailable'])
 export const venueType = pgEnum("venue_type", ['breakfast', 'playzones', 'pubs', 'clubs', 'restaurants'])
 
@@ -59,27 +60,32 @@ export const views = pgTable("views", {
 export const venues = pgTable("venues", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	name: text().notNull(),
-	type: venueType().notNull(),
 	latitude: doublePrecision().notNull(),
 	longitude: doublePrecision().notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 	description: text(),
-	overallRating: numeric("overall_rating"),
-	noOfRating: integer("no_of_rating"),
 	price: numeric(),
-	favorite: boolean().default(false),
 	status: boolean().default(false),
-	hasWifi: boolean("has_wifi").default(false),
-	hasParking: boolean("has_parking").default(false),
-	hasOutdoorSeating: boolean("has_outdoor_seating").default(false),
-	acceptsCreditCards: boolean("accepts_credit_cards").default(false),
-	hasLiveMusic: boolean("has_live_music").default(false),
-	allowsLargeGroups: boolean("allows_large_groups").default(false),
 	imgUrl: text("img_url"),
-	allergens: time(),
+	allergens: text().array(),
 	"3DUrl": text("3d_url"),
 	tags: text(),
-});
+	email: text(),
+	phoneNumber: numeric("phone_number"),
+	type: venueType().array().notNull(),
+	openingHours: timestamp("opening_hours", { mode: 'string' }),
+	closingHours: time("closing_hours", { withTimezone: true }),
+	facebookUrl: text("facebook_url"),
+	instagramUrl: text("instagram_url"),
+	cuisineType: cuisineType("cuisine_type"),
+	avgRating: real("avg_rating"),
+	totalRating: numeric("total_rating"),
+	amenities: text().array(),
+}, (table) => [
+	check("venues_avg_rating_check", sql`avg_rating > (0)::double precision`),
+	check("venues_price_check", sql`price > (0)::numeric`),
+	check("venues_total_rating_check", sql`total_rating > (0)::numeric`),
+]);
 
 export const admin = pgTable("admin", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
@@ -130,11 +136,6 @@ export const reservations = pgTable("reservations", {
 	venueId: uuid("venue_id"),
 }, (table) => [
 	foreignKey({
-			columns: [table.fromRestaurants],
-			foreignColumns: [restaurants.id],
-			name: "reservations_from_restaurants_fkey"
-		}),
-	foreignKey({
 			columns: [table.tableId],
 			foreignColumns: [tables.id],
 			name: "reservations_table_id_fkey"
@@ -159,24 +160,11 @@ export const tables = pgTable("tables", {
 	expiresIn: timestamp("expires_in", { withTimezone: true, mode: 'string' }).defaultNow(),
 	fromRestaurant: uuid("from_restaurant").notNull(),
 	status: tableStatus().default('available'),
-}, (table) => [
-	foreignKey({
-			columns: [table.fromRestaurant],
-			foreignColumns: [restaurants.id],
-			name: "tables_from_restaurant_fkey"
-		}),
-]);
+});
 
 export const currentTimestamp = pgTable("current_timestamp", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-});
-
-export const restaurants = pgTable("restaurants", {
-	id: uuid().defaultRandom().primaryKey().notNull(),
-	name: text().notNull(),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	logoLink: text("logo_link"),
 });
 
 export const venueTypes = pgTable("venue_types", {
@@ -202,25 +190,6 @@ export const promotions = pgTable("promotions", {
 			columns: [table.venueId],
 			foreignColumns: [venues.id],
 			name: "promotions_venue_id_venues_id_fk"
-		}),
-]);
-
-export const venueInfo = pgTable("venue_info", {
-	id: uuid().defaultRandom().primaryKey().notNull(),
-	venueId: uuid("venue_id").notNull(),
-	shortInfo: text("short_info"),
-	email: text(),
-	phoneNumber: text("phone_number"),
-	numberOfStars: integer("number_of_stars"),
-	openingHours: text("opening_hours"),
-	facebookUrl: text("facebook_url"),
-	instagramUrl: text("instagram_url"),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-}, (table) => [
-	foreignKey({
-			columns: [table.venueId],
-			foreignColumns: [venues.id],
-			name: "venue_info_venue_id_venues_id_fk"
 		}),
 ]);
 

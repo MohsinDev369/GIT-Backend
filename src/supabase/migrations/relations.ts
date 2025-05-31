@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { users, reviews, venues, tables, views, events, restaurants, reservations, promotions, venueInfo, tasteOfTheDay } from "./schema";
+import { users, reviews, venues, tables, views, events, reservations, promotions, tasteOfTheDay } from "./schema";
 
 export const reviewsRelations = relations(reviews, ({one}) => ({
 	user: one(users, {
@@ -24,7 +24,6 @@ export const venuesRelations = relations(venues, ({many}) => ({
 	events: many(events),
 	reservations: many(reservations),
 	promotions: many(promotions),
-	venueInfos: many(venueInfo),
 	tasteOfTheDays: many(tasteOfTheDay),
 }));
 
@@ -43,13 +42,9 @@ export const viewsRelations = relations(views, ({one}) => ({
 	}),
 }));
 
-export const tablesRelations = relations(tables, ({one, many}) => ({
+export const tablesRelations = relations(tables, ({many}) => ({
 	views: many(views),
 	reservations: many(reservations),
-	restaurant: one(restaurants, {
-		fields: [tables.fromRestaurant],
-		references: [restaurants.id]
-	}),
 }));
 
 export const eventsRelations = relations(events, ({one}) => ({
@@ -60,10 +55,6 @@ export const eventsRelations = relations(events, ({one}) => ({
 }));
 
 export const reservationsRelations = relations(reservations, ({one}) => ({
-	restaurant: one(restaurants, {
-		fields: [reservations.fromRestaurants],
-		references: [restaurants.id]
-	}),
 	table: one(tables, {
 		fields: [reservations.tableId],
 		references: [tables.id]
@@ -78,21 +69,9 @@ export const reservationsRelations = relations(reservations, ({one}) => ({
 	}),
 }));
 
-export const restaurantsRelations = relations(restaurants, ({many}) => ({
-	reservations: many(reservations),
-	tables: many(tables),
-}));
-
 export const promotionsRelations = relations(promotions, ({one}) => ({
 	venue: one(venues, {
 		fields: [promotions.venueId],
-		references: [venues.id]
-	}),
-}));
-
-export const venueInfoRelations = relations(venueInfo, ({one}) => ({
-	venue: one(venues, {
-		fields: [venueInfo.venueId],
 		references: [venues.id]
 	}),
 }));
