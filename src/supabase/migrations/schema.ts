@@ -332,4 +332,3 @@ export const tasteOfTheDay = pgTable("taste_of_the_day", {
     name: "taste_of_the_day_venue_id_venues_id_fk"
   }),
 ])
-

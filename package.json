@@ -9,7 +9,7 @@
     "build": "npm run db:push && next build",
     "lint": "next lint",
     "db:generate": "npx drizzle-kit generate",
-    "db:push": "npx drizzle-kit push",
+    "db:push": "npx drizzle-kit push && npx tsx scripts/grant-public-access.ts",
     "db:getddl": "npx drizzle-kit introspect",
     "venue-seed": "bun run ./src/scripts/confirm-and-run.ts bun run ./src/seed/seed-venues.ts"
   },
