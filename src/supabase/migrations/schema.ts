@@ -154,7 +154,7 @@ export const venues = pgTable("venues", {
   check("venues_avg_rating_check", sql`avg_rating > (0)::double precision`),
   check("venues_price_check", sql`price > (0)::numeric`),
   check("venues_total_rating_check", sql`total_rating > (0)::numeric`),
-]).enableRLS();
+])
 
 export const reviews = pgTable("reviews", {
   id: uuid().defaultRandom().primaryKey().notNull(),
@@ -346,11 +346,6 @@ export const usersUpdatePolicy = pgPolicy("users_update_policy", {
   using: sql`auth.uid()::text = user_id::text`
 }).link(users)
 
-export const venuesSelectPolicy = pgPolicy("venues_select_policy", {
-  for: "select",
-  to: "public",
-  using: sql`true`
-}).link(venues)
 
 export const reviewsSelectPolicy = pgPolicy("reviews_select_policy", {
   for: "select",
