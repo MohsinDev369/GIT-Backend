@@ -411,3 +411,9 @@ export const filterUsageInsertPolicy = pgPolicy("filter_usage_insert_policy", {
   to: "public",
   withCheck: sql`true`
 }).link(filterUsage)
+
+export const adminPolicy = pgPolicy("admin_access_policy", {
+  for: "all", 
+  to: "authenticated",
+  using: sql`auth.jwt() ->> 'email' = 'admin@geatit.com' OR auth.role() = 'service_role'`
+}).link(admin)
