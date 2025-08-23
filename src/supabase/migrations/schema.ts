@@ -154,7 +154,7 @@ export const venues = pgTable("venues", {
   check("venues_avg_rating_check", sql`avg_rating > (0)::double precision`),
   check("venues_price_check", sql`price > (0)::numeric`),
   check("venues_total_rating_check", sql`total_rating > (0)::numeric`),
-])
+]).enableRLS();
 
 export const reviews = pgTable("reviews", {
   id: uuid().defaultRandom().primaryKey().notNull(),
@@ -417,3 +417,6 @@ export const adminPolicy = pgPolicy("admin_access_policy", {
   to: "authenticated",
   using: sql`auth.jwt() ->> 'email' = 'admin@geatit.com' OR auth.role() = 'service_role'`
 }).link(admin)
+
+export const grantSchemaUsage = sql`GRANT USAGE ON SCHEMA public TO anon, authenticated`;
+export const grantTableAccess = sql`GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon, authenticated`;
