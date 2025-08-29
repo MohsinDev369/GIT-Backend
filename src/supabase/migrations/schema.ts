@@ -332,3 +332,89 @@ export const tasteOfTheDay = pgTable("taste_of_the_day", {
     name: "taste_of_the_day_venue_id_venues_id_fk"
   }),
 ])
+
+// Dish types enum
+export const dishType = pgEnum("dish_type", [
+  'breakfast', 'cafe', 'pasta', 'drinks', 'appetizer', 'main_course', 
+  'dessert', 'salad', 'soup', 'pizza', 'burger', 'sandwich', 'snack'
+])
+
+// Nutritional information type for JSON storage
+export const dishes = pgTable("dishes", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  venueId: uuid("venue_id").notNull(),
+  title: text().notNull(),
+  price: numeric({ precision: 10, scale: 2 }).notNull(),
+  type: dishType().notNull(),
+  productDetail: text("product_detail"),
+  pairingSuggestion: text("pairing_suggestion"),
+  
+  // Nutritional values as separate fields (in grams/ml)
+  calories: numeric({ precision: 10, scale: 2 }),
+  protein: numeric({ precision: 10, scale: 2 }),
+  carbohydrates: numeric({ precision: 10, scale: 2 }),
+  fat: numeric({ precision: 10, scale: 2 }),
+  fiber: numeric({ precision: 10, scale: 2 }),
+  sugar: numeric({ precision: 10, scale: 2 }),
+  sodium: numeric({ precision: 10, scale: 2 }), // in mg
+  
+  // Allergens array (reusing pattern from venues)
+  allergens: text().array(),
+  
+  // Additional fields
+  imageUrl: text("image_url"),
+  isAvailable: boolean("is_available").default(true).notNull(),
+  preparationTime: integer("preparation_time"), // in minutes
+  spicyLevel: smallint("spicy_level"), // 0-5 scale
+  isVegetarian: boolean("is_vegetarian").default(false),
+  isVegan: boolean("is_vegan").default(false),
+  isGlutenFree: boolean("is_gluten_free").default(false),
+  
+  // Standard timestamps
+  createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }),
+}, (table) => [
+  foreignKey({
+    columns: [table.venueId],
+    foreignColumns: [venues.id],
+    name: "dishes_venue_id_fkey"
+  }),
+  check("dishes_price_check", sql`price > (0)::numeric`),
+  check("dishes_spicy_level_check", sql`spicy_level >= 0 AND spicy_level <= 5`),
+])
+
+// Optional: Dish categories for better organization
+export const dishCategories = pgTable("dish_categories", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  venueId: uuid("venue_id").notNull(),
+  name: text().notNull(),
+  description: text(),
+  displayOrder: integer("display_order").default(0),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+}, (table) => [
+  foreignKey({
+    columns: [table.venueId],
+    foreignColumns: [venues.id],
+    name: "dish_categories_venue_id_fkey"
+  }),
+])
+
+// Junction table to link dishes to categories (many-to-many)
+export const dishCategoryRelations = pgTable("dish_category_relations", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  dishId: uuid("dish_id").notNull(),
+  categoryId: uuid("category_id").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+}, (table) => [
+  foreignKey({
+    columns: [table.dishId],
+    foreignColumns: [dishes.id],
+    name: "dish_category_relations_dish_id_fkey"
+  }),
+  foreignKey({
+    columns: [table.categoryId],
+    foreignColumns: [dishCategories.id],
+    name: "dish_category_relations_category_id_fkey"
+  }),
+])
