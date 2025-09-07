@@ -3,85 +3,85 @@ import { sql } from "drizzle-orm"
 
 // Updated cuisine types from PDF
 export const cuisineType = pgEnum("cuisine_type", [
-  'african', 'american', 'english', 'arabic', 'argentinian', 'armenian', 'austrian', 
-  'asian', 'middle_eastern', 'brazilian', 'chinese', 'croatian', 'montenegrin', 
-  'czech', 'estonian', 'european', 'finnish', 'french', 'fusion', 'greek', 
-  'georgian', 'spanish', 'dutch', 'indonesian', 'indian', 'israeli', 'japanese', 
-  'korean', 'cuban', 'lebanese', 'mexican', 'international', 'german', 'polish', 
-  'portuguese', 'serbian', 'slovenian', 'mediterranean', 'syrian', 'thai', 
+  'african', 'american', 'english', 'arabic', 'argentinian', 'armenian', 'austrian',
+  'asian', 'middle_eastern', 'brazilian', 'chinese', 'croatian', 'montenegrin',
+  'czech', 'estonian', 'european', 'finnish', 'french', 'fusion', 'greek',
+  'georgian', 'spanish', 'dutch', 'indonesian', 'indian', 'israeli', 'japanese',
+  'korean', 'cuban', 'lebanese', 'mexican', 'international', 'german', 'polish',
+  'portuguese', 'serbian', 'slovenian', 'mediterranean', 'syrian', 'thai',
   'turkish', 'ukrainian', 'uzbek', 'hungarian', 'vietnamese', 'italian'
 ])
 
 // Poznań neighborhoods
 export const neighborhood = pgEnum("neighborhood", [
-  'antoninek_zieliniec_kobylepole', 'chartowo', 'fabianowo_kotowo', 'glowna', 
-  'gluszyna', 'gorczyn', 'grunwald_poludnie', 'grunwald_polnoc', 'jezyce', 
-  'junikowo', 'kiekrz', 'krzesiny_pokrzywno_garaszewo', 'krzyzowniki_smochowice', 
-  'kwiatowe', 'lawica', 'morasko_radojewo', 'naramowice', 'nowe_winogrady_poludnie', 
-  'nowe_winogrady_polnoc', 'nowe_winogrady_wschod', 'ogrody', 
-  'ostrow_tumski_srodka_zawady_komandoria', 'piatkovo', 'piatkovo_polnoc', 
-  'podolany', 'rataje', 'solacz', 'stare_miasto', 'stare_winogrady', 
-  'staroleka_minikowo_marlewo', 'stary_grunwald', 'strzeszyn', 
-  'szczepankowo_splawie_krzesinki', 'swierczewo', 'sw_lazarz', 'umultowo', 
+  'antoninek_zieliniec_kobylepole', 'chartowo', 'fabianowo_kotowo', 'glowna',
+  'gluszyna', 'gorczyn', 'grunwald_poludnie', 'grunwald_polnoc', 'jezyce',
+  'junikowo', 'kiekrz', 'krzesiny_pokrzywno_garaszewo', 'krzyzowniki_smochowice',
+  'kwiatowe', 'lawica', 'morasko_radojewo', 'naramowice', 'nowe_winogrady_poludnie',
+  'nowe_winogrady_polnoc', 'nowe_winogrady_wschod', 'ogrody',
+  'ostrow_tumski_srodka_zawady_komandoria', 'piatkovo', 'piatkovo_polnoc',
+  'podolany', 'rataje', 'solacz', 'stare_miasto', 'stare_winogrady',
+  'staroleka_minikowo_marlewo', 'stary_grunwald', 'strzeszyn',
+  'szczepankowo_splawie_krzesinki', 'swierczewo', 'sw_lazarz', 'umultowo',
   'warszawskie_pomet_maltanskie', 'wilda', 'winiary', 'wola', 'zielony_debiec', 'zegrze'
 ])
 
 // Availability options
 export const availability = pgEnum("availability", [
-  'open_now', 'happy_hours', 'events_today', 'tables_available_tonight', 
+  'open_now', 'happy_hours', 'events_today', 'tables_available_tonight',
   'breakfast_served_until_12'
 ])
 
 // Amenities - general
 export const amenity = pgEnum("amenity", [
   // Breakfast/Cafes
-  'fast_service', 'specialty_coffee', 'breakfast_menu', 'veg_vegan_options', 
-  'laptop_friendly', 'quiet_atmosphere', 'free_wifi', 'outlets_at_tables', 
-  'good_for_meetings', 'homemade_cakes', 'weekend_brunch', 'freshly_baked_goods', 
-  'all_day_breakfast', 'child_friendly', 'pet_water_bowl', 'pets_friendly', 
+  'fast_service', 'specialty_coffee', 'breakfast_menu', 'veg_vegan_options',
+  'laptop_friendly', 'quiet_atmosphere', 'free_wifi', 'outlets_at_tables',
+  'good_for_meetings', 'homemade_cakes', 'weekend_brunch', 'freshly_baked_goods',
+  'all_day_breakfast', 'child_friendly', 'pet_water_bowl', 'pets_friendly',
   'terrace_patio', 'books_magazines', 'table_reservations',
-  
+
   // Restaurants
-  'table_service', 'wine_list', 'tasting_menu', 'online_booking', 
-  'multilingual_staff', 'cozy_interior', 'seasonal_menu', 'gluten_free_options', 
-  'local_dishes', 'open_kitchen', 'sommelier', 'kids_menu', 'play_corner', 
+  'table_service', 'wine_list', 'tasting_menu', 'online_booking',
+  'multilingual_staff', 'cozy_interior', 'seasonal_menu', 'gluten_free_options',
+  'local_dishes', 'open_kitchen', 'sommelier', 'kids_menu', 'play_corner',
   'live_music', 'private_rooms', 'vip_area', 'guest_parking', 'group_reservations',
-  
+
   // Pubs
-  'happy_hour', 'craft_beer', 'rotating_taps', 'pub_quizzes', 'sports_screenings', 
-  'darts_pool', 'karaoke_nights', 'live_dj', 'daily_drink_specials', 'themed_shots', 
-  'board_games', 'dance_zone', 'beer_garden', 'photo_booth', 'late_night', 
+  'happy_hour', 'craft_beer', 'rotating_taps', 'pub_quizzes', 'sports_screenings',
+  'darts_pool', 'karaoke_nights', 'live_dj', 'daily_drink_specials', 'themed_shots',
+  'board_games', 'dance_zone', 'beer_garden', 'photo_booth', 'late_night',
   'free_water', 'smoking_area',
-  
+
   // Clubs
-  'guest_list', 'vip_lounge', 'cloakroom', 'signature_cocktails', 'booth_reservations', 
-  'resident_dj', 'themed_events', 'light_shows', 'afterparties', 'chill_zone', 
-  'security_staff', 'skip_the_line', 'free_entry_before_10pm', 'qr_code_entry', 
+  'guest_list', 'vip_lounge', 'cloakroom', 'signature_cocktails', 'booth_reservations',
+  'resident_dj', 'themed_events', 'light_shows', 'afterparties', 'chill_zone',
+  'security_staff', 'skip_the_line', 'free_entry_before_10pm', 'qr_code_entry',
   'free_shots_via_app', 'selfie_zone',
-  
+
   // PlayZone
-  'bowling_lanes', 'darts', 'arcade_machines', 'vr_simulators', 'escape_rooms', 
-  'private_karaoke', 'retro_arcade_zone', 'slot_car_racing', 'air_hockey', 
-  'snack_bar', 'birthday_packages', 'open_bar', 'chill_area_beanbags', 
+  'bowling_lanes', 'darts', 'arcade_machines', 'vr_simulators', 'escape_rooms',
+  'private_karaoke', 'retro_arcade_zone', 'slot_car_racing', 'air_hockey',
+  'snack_bar', 'birthday_packages', 'open_bar', 'chill_area_beanbags',
   'dj_gaming', 'prize_tournaments', 'game_happy_hour', 'party_menu', 'free_popcorn'
 ])
 
 // Occasions/Vibe
 export const occasion = pgEnum("occasion", [
-  'for_a_date', 'birthday', 'bachelorette_party', 'quiet_place', 'live_music', 
-  'great_for_groups', 'after_work_drinks', 'romantic_sunset', 'girls_night_out', 
-  'guys_night_out', 'party_mood', 'chill_vibes', 'candlelight_dinner', 
-  'fun_games', 'family_friendly', 'dog_friendly', 'celebration_spot', 
-  'work_friendly', 'business_meeting', 'weekend_brunch', 'instagrammable', 
-  'karaoke_night', 'dj_dancing', 'game_night_trivia', 'outdoor_seating', 
+  'for_a_date', 'birthday', 'bachelorette_party', 'quiet_place', 'live_music',
+  'great_for_groups', 'after_work_drinks', 'romantic_sunset', 'girls_night_out',
+  'guys_night_out', 'party_mood', 'chill_vibes', 'candlelight_dinner',
+  'fun_games', 'family_friendly', 'dog_friendly', 'celebration_spot',
+  'work_friendly', 'business_meeting', 'weekend_brunch', 'instagrammable',
+  'karaoke_night', 'dj_dancing', 'game_night_trivia', 'outdoor_seating',
   'themed_events', 'live_dj_set', 'club_night', 'study_friendly'
 ])
 
 // Seating options
 export const seatingOption = pgEnum("seating_option", [
-  'standard', 'bar', 'counter', 'hightop', 'outdoor', 'booth', 'lounge_sofa', 
-  'communal_table', 'window_seat', 'private_room', 'patio', 'rooftop', 'garden', 
-  'firepit_seating', 'hammocks', 'beanbags_chill_zone', 'swing_chairs', 
+  'standard', 'bar', 'counter', 'hightop', 'outdoor', 'booth', 'lounge_sofa',
+  'communal_table', 'window_seat', 'private_room', 'patio', 'rooftop', 'garden',
+  'firepit_seating', 'hammocks', 'beanbags_chill_zone', 'swing_chairs',
   'stage_side_seating', 'couples_corner', 'hammock_chairs'
 ])
 
@@ -335,7 +335,7 @@ export const tasteOfTheDay = pgTable("taste_of_the_day", {
 
 // Dish types enum
 export const dishType = pgEnum("dish_type", [
-  'breakfast', 'cafe', 'pasta', 'drinks', 'appetizer', 'main_course', 
+  'breakfast', 'cafe', 'pasta', 'drinks', 'appetizer', 'main_course',
   'dessert', 'salad', 'soup', 'pizza', 'burger', 'sandwich', 'snack'
 ])
 
@@ -348,7 +348,7 @@ export const dishes = pgTable("dishes", {
   type: dishType().notNull(),
   productDetail: text("product_detail"),
   pairingSuggestion: text("pairing_suggestion"),
-  
+
   // Nutritional values as separate fields (in grams/ml)
   calories: numeric({ precision: 10, scale: 2 }),
   protein: numeric({ precision: 10, scale: 2 }),
@@ -357,10 +357,26 @@ export const dishes = pgTable("dishes", {
   fiber: numeric({ precision: 10, scale: 2 }),
   sugar: numeric({ precision: 10, scale: 2 }),
   sodium: numeric({ precision: 10, scale: 2 }), // in mg
-  
+
+  // Detailed nutritional values with RWS percentages
+  energyValueAmount: numeric("energy_value_amount", { precision: 10, scale: 2 }),
+  energyValueRWS: numeric("energy_value_RWS", { precision: 5, scale: 2 }),
+  fatAmount: numeric("fat_amount", { precision: 10, scale: 2 }),
+  fatRWS: numeric("fat_RWS", { precision: 5, scale: 2 }),
+  ofWhichSaturatesAmount: numeric("of_which_saturates_amount", { precision: 10, scale: 2 }),
+  ofWhichSaturatesRWS: numeric("of_which_saturates_RWS", { precision: 5, scale: 2 }),
+  carbohydratesAmount: numeric("carbohydrates_amount", { precision: 10, scale: 2 }),
+  carbohydratesRWS: numeric("carbohydrates_RWS", { precision: 5, scale: 2 }),
+  ofWhichSugarsAmount: numeric("of_which_sugars_amount", { precision: 10, scale: 2 }),
+  ofWhichSugarsRWS: numeric("of_which_sugars_RWS", { precision: 5, scale: 2 }),
+  proteinAmount: numeric("protein_amount", { precision: 10, scale: 2 }),
+  proteinRWS: numeric("protein_RWS", { precision: 5, scale: 2 }),
+  saltAmount: numeric("salt_amount", { precision: 10, scale: 2 }),
+  saltRWS: numeric("salt_RWS", { precision: 5, scale: 2 }),
+
   // Allergens array (reusing pattern from venues)
   allergens: text().array(),
-  
+
   // Additional fields
   imageUrl: text("image_url"),
   isAvailable: boolean("is_available").default(true).notNull(),
@@ -369,7 +385,7 @@ export const dishes = pgTable("dishes", {
   isVegetarian: boolean("is_vegetarian").default(false),
   isVegan: boolean("is_vegan").default(false),
   isGlutenFree: boolean("is_gluten_free").default(false),
-  
+
   // Standard timestamps
   createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }),
